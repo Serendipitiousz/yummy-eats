@@ -1,10 +1,8 @@
-import Image from "next/image";
 import SearchForm from "../components/SearchForm";
 import RecipeCard from "@/components/RecipeCard";
 
 import "antd/dist/reset.css";
 import { supabase } from "../utils/supabaseClient";
-import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Home({
   searchParams,
@@ -13,9 +11,11 @@ export default async function Home({
 }) {
   const query = (await searchParams).query;
 
+  // Fetch all recipes
   const { data, error } = await supabase
     .from("blog_posts")
     .select("*")
+    .eq("isdeleted", false)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -24,6 +24,13 @@ export default async function Home({
   } else {
     console.log("Data fetched successfully:", data);
   }
+
+  // Filter data if a query is provided
+  const filteredData = query
+    ? data?.filter(
+        (item) => item.title.toLowerCase().includes(query.toLowerCase()) // Filter by title
+      )
+    : data;
 
   return (
     <>
@@ -37,13 +44,13 @@ export default async function Home({
       </section>
       <section className="section_container">
         <p className="text-30-semibold">
-          {query ? `Search results for "${query}"` : "All Recipe"}
+          {query ? `Search results for "${query}"` : "All Recipes"}
         </p>
         <ul className="mt-7 card_grid">
-          {data?.length > 0 ? (
-            data.map((item) => <RecipeCard key={item.id} item={item} />)
+          {filteredData?.length > 0 ? (
+            filteredData.map((item) => <RecipeCard key={item.id} item={item} />)
           ) : (
-            <p className="no-results"> No recipes found</p>
+            <p className="no-results">No recipes found</p>
           )}
         </ul>
       </section>

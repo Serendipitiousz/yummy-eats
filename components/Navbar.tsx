@@ -2,9 +2,8 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-
+import { ScrollText } from "lucide-react";
 import {
-  ClerkProvider,
   SignInButton,
   SignedIn,
   SignedOut,
@@ -15,25 +14,6 @@ import { Row, Space, Col } from "antd";
 import { Button } from "antd";
 import { usePathname } from "next/navigation";
 
-const UserIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      className="lucide lucide-user"
-    >
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-};
 const Navbar = () => {
   const pathname = usePathname();
   const { user } = useUser();
@@ -69,7 +49,7 @@ const Navbar = () => {
                 <UserButton.MenuItems>
                   <UserButton.Link
                     label="My Posts"
-                    labelIcon={<UserIcon />}
+                    labelIcon={<ScrollText size={16} />}
                     href={`/views/user/${userId}`}
                   />
                   <UserButton.Action label="manageAccount" />

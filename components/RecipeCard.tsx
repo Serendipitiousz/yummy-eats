@@ -1,11 +1,9 @@
 "use client";
 
-import { EyeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Button } from "./ui/button";
-import { useUser } from "@clerk/clerk-react";
+
 import { Card } from "antd";
 
 const RecipeCard = ({ item }: any) => {
@@ -23,7 +21,10 @@ const RecipeCard = ({ item }: any) => {
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
       }}
       cover={
-        <img
+        <Image
+          width={500}
+          height={500}
+          priority
           alt="example"
           src={item.post_image}
           style={{

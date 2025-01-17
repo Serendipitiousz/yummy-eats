@@ -10,6 +10,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <title>Yummy Eats</title>
+          <meta name="description" content="A recipe sharing website" />
+        </head>
         <body>
           <header>
             <Navbar />

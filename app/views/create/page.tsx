@@ -4,9 +4,8 @@ import { Card, Form, Input, Button, Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { supabase } from "../../../utils/supabaseClient";
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
-import ReactQuill from "react-quill";
+
 import "react-quill/dist/quill.snow.css"; // Or 'quill.bubble.css'
-import { profile } from "console";
 
 const Page = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -33,7 +32,7 @@ const Page = () => {
     const uniqueFileName = `image_${Date.now()}_${file.name}`;
 
     try {
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from("blog_images")
         .upload(`uploads/${uniqueFileName}`, file);
 
@@ -54,6 +53,7 @@ const Page = () => {
   };
 
   const handleSubmit = async (values: any) => {
+    console.log(userId);
     success();
 
     const { title, ingredients, instructions, food_type, post_image } = values;

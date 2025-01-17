@@ -1,5 +1,5 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
+
 import { useEffect, useState } from "react";
 import { Card, Row, Spin } from "antd"; // Added Spin for loading spinner
 import { supabase } from "../../../../utils/supabaseClient";
@@ -91,27 +91,33 @@ const Page = () => {
   return (
     <Card>
       <Row justify="center" style={{ gap: "50px" }}>
-        <img
-          src={info[0].profile_pic} // Use a default profile image as fallback
-          alt="User Profile"
-          style={{
-            borderRadius: "50%",
-            width: "200px",
-            height: "200px",
-            borderWidth: "1px",
-            borderStyle: "solid",
-            borderColor: "rgba(0, 0, 0, 0.08)",
-          }}
-        />
-        <p
-          style={{
-            fontSize: "24px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {info[0].username}
-        </p>
+        {info.length > 0 ? (
+          <>
+            <img
+              src={info[0].profile_pic || "/default-profile.jpg"} // Provide a default image URL
+              alt="User Profile"
+              style={{
+                borderRadius: "50%",
+                width: "200px",
+                height: "200px",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: "rgba(0, 0, 0, 0.08)",
+              }}
+            />
+            <p
+              style={{
+                fontSize: "24px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {info[0].username || "Anonymous User"}
+            </p>
+          </>
+        ) : (
+          <p>No user information available</p>
+        )}
       </Row>
       <Row>
         <section className="section_container">

@@ -5,8 +5,12 @@ import { supabase } from "../../../../utils/supabaseClient";
 import { useReactToPrint } from "react-to-print";
 import { Printer } from "lucide-react";
 import Link from "next/link";
-export default function RecipeDetail({ params }: { params: { id: string } }) {
-  const { id } = params; // Extract the id from params
+import { useParams } from "next/navigation";
+import { useUser } from "@clerk/clerk-react";
+
+export default function RecipeDetail() {
+  const { id } = useParams();
+  const { user } = useUser();
 
   const [recipe, setRecipe] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -28,6 +32,7 @@ export default function RecipeDetail({ params }: { params: { id: string } }) {
           console.error(error);
         } else {
           setRecipe(data);
+          console.log("Fetched recipe:", data); // Log fetched recipe
         }
       } catch (err) {
         setError("An unexpected error occurred");
@@ -39,6 +44,39 @@ export default function RecipeDetail({ params }: { params: { id: string } }) {
 
     fetchRecipe();
   }, [id]);
+
+  const handleDelete = async () => {
+    if (!recipe?.id || !user?.id || !recipe?.user_id) {
+      console.error("Recipe or user ID is missing");
+      return;
+    }
+    // Debugging logs
+    console.log("Recipe ID:", typeof recipe.id);
+    console.log("Logged-in user ID:", user?.id);
+    console.log("Recipe user_id:", recipe?.user_id);
+    console.log("param id", typeof id);
+    console.log("Deleting recipe with ID:", id);
+
+    try {
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .update({ isdeleted: true }) // Update the 'isdeleted' column to true
+        .eq("id", id); // Match the post by its ID
+
+      if (error) {
+        console.error("Error marking the post as deleted:", error);
+        return; // Exit if there's an error
+      }
+
+      console.log("Post marked as deleted successfully.");
+    } catch (err) {
+      // Catch any unexpected errors
+      console.error("An unexpected error occurred:", err);
+    } finally {
+      // Optional: Add any cleanup actions or final messages
+      console.log("Delete operation finished.");
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -54,7 +92,7 @@ export default function RecipeDetail({ params }: { params: { id: string } }) {
 
         <div className="flex justify-between items-center mb-6 print:hidden">
           {/* Profile Section */}
-          <Link href={`/views/user/${[id]}`}>
+          <Link href={`/views/user/${[recipe.user_id]}`}>
             <div className="flex items-center gap-3">
               <img
                 src={recipe.profile_pic}
@@ -78,6 +116,14 @@ export default function RecipeDetail({ params }: { params: { id: string } }) {
           >
             <Printer />
           </button>
+          {user?.id && recipe && user?.id === recipe.user_id && (
+            <button
+              onClick={handleDelete}
+              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Delete
+            </button>
+          )}
         </div>
 
         {/* Title */}
