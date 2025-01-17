@@ -3,16 +3,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
 import { Card } from "antd";
 
-const RecipeCard = ({ item }: any) => {
+// Define TypeScript interfaces for the props
+interface RecipeCardProps {
+  item: {
+    id: string;
+    title: string;
+    post_image: string;
+    profile_pic: string;
+    user_id: string;
+    username: string;
+    created_at: string;
+  };
+}
+
+const RecipeCard: React.FC<RecipeCardProps> = ({ item }) => {
   return (
     <Card
       key={item.id}
       style={{
         borderRadius: "24px",
-
         border: "none",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
       }}

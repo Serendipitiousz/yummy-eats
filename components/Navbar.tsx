@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { CirclePlus, House, ScrollText, UserRound } from "lucide-react";
+import { CirclePlus, House, ScrollText } from "lucide-react";
 import {
   SignInButton,
   SignedIn,
