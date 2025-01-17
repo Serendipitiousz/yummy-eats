@@ -5,8 +5,6 @@ import { InboxOutlined } from "@ant-design/icons";
 import { supabase } from "../../../utils/supabaseClient";
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 
-import "react-quill/dist/quill.snow.css"; // Or 'quill.bubble.css'
-
 const Page = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const { user } = useUser(); // Get the current user from Clerk

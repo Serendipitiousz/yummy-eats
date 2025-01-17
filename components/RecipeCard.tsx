@@ -7,10 +7,6 @@ import React from "react";
 import { Card } from "antd";
 
 const RecipeCard = ({ item }: any) => {
-  // const { user } = useUser(); // Get the current user from Clerk
-
-  // const userName = user?.username;
-  // const userProfileImageUrl = user?.imageUrl;
   return (
     <Card
       key={item.id}
@@ -70,39 +66,6 @@ const RecipeCard = ({ item }: any) => {
         </div>
       </div>
     </Card>
-    // <ul>
-    //   <li className="startup-card group" key={item.id}>
-
-    //     <div className="flex-between mt-5 mb-5 gap-5">
-    //       <div className="flex-1">
-    //         <Link href={`/`}>
-    //           <h3 className="text-26-semibold line-clamp-1">{item.title}</h3>
-    //         </Link>
-    //       </div>
-    //     </div>
-    //     <Link href={`/`}>
-    //       <img
-    //         src={item.post_image}
-    //         alt="placeholder"
-    //         style={{
-    //           objectFit: "cover",
-    //           width: "100%",
-    //           height: "auto",
-    //           maxHeight: "300px",
-    //           imageRendering: "auto",
-    //           borderRadius: "8px",
-    //         }}
-    //       />
-    //     </Link>
-
-    //     <div className="flex-between gap-3 mt-5">
-
-    //       <Button className="startup-card_btn" asChild>
-    //         <Link href={`/`}>Detail</Link>
-    //       </Button>
-    //     </div>
-    //   </li>
-    // </ul>
   );
 };
 

@@ -7,12 +7,25 @@ import { Printer } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/clerk-react";
+import Image from "next/image";
 
 export default function RecipeDetail() {
+  interface Recipe {
+    id: number;
+    title: string;
+    user_id: string;
+    username: string;
+    profile_pic: string;
+    post_image: string;
+    ingredients: string;
+    instructions: string;
+    isdeleted?: boolean;
+    created_at?: string;
+  }
   const { id } = useParams();
   const { user } = useUser();
 
-  const [recipe, setRecipe] = useState<any>(null);
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -58,7 +71,7 @@ export default function RecipeDetail() {
     console.log("Deleting recipe with ID:", id);
 
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("blog_posts")
         .update({ isdeleted: true }) // Update the 'isdeleted' column to true
         .eq("id", id); // Match the post by its ID
@@ -86,21 +99,23 @@ export default function RecipeDetail() {
       <div className="w-full md:w-4/6 lg:w-3/5 mx-auto p-6 sm:p-8 md:p-12 bg-[rgb(250,249,246)] print:bg-white">
         <div className="flex">
           <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 mb-6 sm:mb-8 print:text-black print:text-2xl">
-            {recipe.title}
+            {recipe?.title}
           </h1>
         </div>
 
         <div className="flex justify-between items-center mb-6 print:hidden">
           {/* Profile Section */}
-          <Link href={`/views/user/${[recipe.user_id]}`}>
+          <Link href={`/views/user/${[recipe?.user_id]}`}>
             <div className="flex items-center gap-3">
-              <img
-                src={recipe.profile_pic}
+              <Image
+                width={40}
+                height={40}
+                src={recipe?.profile_pic || "/default-profile-pic.jpg"}
                 alt="Profile"
                 className="rounded-full w-10 h-10 object-cover"
               />
               <p className="text-sm text-gray-700 font-medium">
-                {recipe.username}
+                {recipe?.username}
               </p>
             </div>
           </Link>
@@ -130,9 +145,12 @@ export default function RecipeDetail() {
 
         {/* Image Container */}
         <div className="relative pb-[75%] mb-6 sm:mb-8 overflow-hidden rounded-3xl print:pb-0 print:h-[200px] print:w-auto print:mx-auto">
-          <img
-            src={recipe.post_image}
-            alt={recipe.title}
+          <Image
+            priority
+            fill
+            src={recipe?.post_image || "/default-image.jpg"}
+            alt={recipe?.title || "Recipe image"}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="absolute top-0 left-0 w-full h-full object-cover rounded-3xl print:relative print:w-auto print:h-[200px] print:object-contain print:rounded-md"
           />
         </div>
@@ -142,7 +160,7 @@ export default function RecipeDetail() {
           Ingredients
         </h2>
         <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6 sm:mb-8 print:text-black print:text-sm">
-          {recipe.ingredients}
+          {recipe?.ingredients}
         </p>
 
         {/* Instructions */}
@@ -150,7 +168,7 @@ export default function RecipeDetail() {
           Instructions
         </h2>
         <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6 sm:mb-8 print:text-black print:text-sm">
-          {recipe.instructions}
+          {recipe?.instructions}
         </p>
       </div>
     </div>
