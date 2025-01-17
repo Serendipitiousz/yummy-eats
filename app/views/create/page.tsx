@@ -4,13 +4,14 @@ import { Card, Form, Input, Button, Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { supabase } from "../../../utils/supabaseClient";
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
-
+import { UploadFile } from "antd/es/upload/interface";
+import { UploadChangeParam } from "antd/es/upload/interface";
 interface FormValues {
   title: string;
   ingredients: string;
   instructions: string;
   food_type: string;
-  post_image: any; // fileList from Ant Design Upload
+  post_image: UploadFile[]; // fileList from Ant Design Upload
 }
 
 const Page = () => {
@@ -33,7 +34,7 @@ const Page = () => {
     });
   };
 
-  const uploadImage = async (file: any) => {
+  const uploadImage = async (file: File) => {
     if (!file) return null;
 
     const uniqueFileName = `image_${Date.now()}_${file.name}`;
@@ -104,7 +105,7 @@ const Page = () => {
     }
   };
 
-  const normFile = (e: any) => {
+  const normFile = (e: UploadChangeParam) => {
     if (Array.isArray(e)) {
       return e;
     }
@@ -150,6 +151,7 @@ const Page = () => {
                 name="post_image"
                 listType="picture"
                 accept=".jpg,.jpeg,.png"
+                maxCount={1}
               >
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined />

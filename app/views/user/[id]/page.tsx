@@ -5,6 +5,7 @@ import { Card, Row, Spin } from "antd"; // Added Spin for loading spinner
 import { supabase } from "../../../../utils/supabaseClient";
 import RecipeCard from "@/components/RecipeCard";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const Page = () => {
   const pathname = usePathname(); // Extract the current pathname to get the userId
@@ -20,6 +21,9 @@ const Page = () => {
     content: string;
     created_at: string;
     user_id: string;
+    post_image: string;
+    profile_pic: string;
+    username: string;
   }
   const [info, setInfo] = useState<UserInfo[]>([]);
   const [data, setData] = useState<BlogPost[]>([]);
@@ -97,7 +101,9 @@ const Page = () => {
       <Row justify="center" style={{ gap: "50px" }}>
         {info.length > 0 ? (
           <>
-            <img
+            <Image
+              width={200}
+              height={200}
               src={info[0].profile_pic || "/default-profile.jpg"} // Provide a default image URL
               alt="User Profile"
               style={{
