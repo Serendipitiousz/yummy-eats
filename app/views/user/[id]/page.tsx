@@ -48,8 +48,9 @@ const Page = () => {
         } else {
           setData(data);
         }
-      } catch (err) {
+      } catch (error) {
         setError("Error fetching data");
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -68,9 +69,9 @@ const Page = () => {
         } else {
           setInfo(data);
         }
-      } catch (err) {
+      } catch (error) {
         setError("An unexpected error occurred");
-        console.error(err);
+        console.error(error);
       } finally {
         setLoading(false);
       }
