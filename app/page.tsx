@@ -4,14 +4,12 @@ import RecipeCard from "@/components/RecipeCard";
 import "antd/dist/reset.css";
 import { supabase } from "../utils/supabaseClient";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ query?: string }>;
-}) {
-  const query = (await searchParams).query;
+// Server component: async function to fetch data
+export default async function Home({ searchParams }: { searchParams: any }) {
+  // Await searchParams.query before using it
+  const query = searchParams.query;
 
-  // Fetch all recipes
+  // Fetch all recipes from Supabase
   const { data, error } = await supabase
     .from("blog_posts")
     .select("*")
