@@ -10,6 +10,10 @@ const Page = () => {
   const pathname = usePathname(); // Extract the current pathname to get the userId
   const userId = pathname.split("/").pop(); // Assuming the userId is the last part of the path
 
+  interface UserInfo {
+    username: string;
+    profile_pic: string | null;
+  }
   interface BlogPost {
     id: string;
     title: string;
@@ -17,10 +21,10 @@ const Page = () => {
     created_at: string;
     user_id: string;
   }
-  const [info, setInfo] = useState<any>([]);
+  const [info, setInfo] = useState<UserInfo[]>([]);
   const [data, setData] = useState<BlogPost[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Wait until pathname is available and userId is extracted for fetching data
   useEffect(() => {

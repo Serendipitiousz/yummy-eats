@@ -5,12 +5,21 @@ import { InboxOutlined } from "@ant-design/icons";
 import { supabase } from "../../../utils/supabaseClient";
 import { useUser } from "@clerk/clerk-react"; // Import Clerk's useUser hook
 
+interface FormValues {
+  title: string;
+  ingredients: string;
+  instructions: string;
+  food_type: string;
+  post_image: any; // fileList from Ant Design Upload
+}
+
 const Page = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const { user } = useUser(); // Get the current user from Clerk
 
   const userId = user?.id;
   const username = user?.username || user?.firstName;
+
   const success = () => {
     messageApi.open({
       duration: 3,
@@ -50,8 +59,7 @@ const Page = () => {
     }
   };
 
-  const handleSubmit = async (values: any) => {
-    console.log(userId);
+  const handleSubmit = async (values: FormValues) => {
     success();
 
     const { title, ingredients, instructions, food_type, post_image } = values;
