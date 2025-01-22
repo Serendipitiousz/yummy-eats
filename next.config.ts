@@ -14,14 +14,13 @@ module.exports = {
   //     { source: '/user', destination: '/views/user' },
   //   ];
   // },
- 
 
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '*',
-      }
+        protocol: "https",
+        hostname: "*",
+      },
     ],
   },
-}
+};

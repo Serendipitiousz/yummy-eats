@@ -1,14 +1,12 @@
 import SearchForm from "../components/SearchForm";
 import RecipeCard from "@/components/RecipeCard";
-
-import "antd/dist/reset.css";
 import { supabase } from "../utils/supabaseClient";
 
-// Server component: async function to fetch data
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function Home({ searchParams }: { searchParams: any }) {
-  // Await searchParams.query before using it
-  const query = searchParams.query;
-
+  const params = await searchParams;
+  const query = params?.query || "";
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   // Fetch all recipes from Supabase
   const { data, error } = await supabase
     .from("blog_posts")

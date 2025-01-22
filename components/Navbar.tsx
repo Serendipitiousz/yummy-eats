@@ -27,10 +27,10 @@ const Navbar = () => {
           <Link href="/">
             <Image
               src="/logo.png"
-              priority
               alt="logo"
               width={120}
               height={24}
+              className="w-auto h-auto"
             />
           </Link>
         </Col>
